@@ -5,7 +5,11 @@ describe SagaciousSuccotash do
     expect(SagaciousSuccotash::VERSION).not_to be nil
   end
 
-  it 'does something useful' do
-    expect(false).to eq(true)
+  it 'has a ruby version' do
+    expect(SagaciousSuccotash::RUBY_VERSION).not_to be nil
+  end
+
+  it 'has a rails version' do
+    expect(SagaciousSuccotash::RAILS_VERSION).not_to be nil
   end
 end

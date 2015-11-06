@@ -20,6 +20,11 @@ Or install it yourself as:
 
     $ gem install sagacious_succotash
 
+## Before Using
+
+* Make sure ruby version in `lib/sagacious_succotash/version.rb` is the latest.
+* Make sure rails version in `lib/sagacious_succotash/version.rb` is the latest.
+
 ## Usage
 
 TODO: Write usage instructions here

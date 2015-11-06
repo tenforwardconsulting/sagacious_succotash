@@ -1,0 +1,4 @@
+#!/bin/sh
+
+rm -r tmp/dummy_app
+./bin/sagacious_succotash tmp/dummy_app
