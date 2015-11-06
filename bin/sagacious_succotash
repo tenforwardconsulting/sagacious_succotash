@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+require 'pathname'
+
+source_path = (Pathname.new(__FILE__).dirname + '../lib').expand_path
+$LOAD_PATH << source_path
+
+require 'sagacious_succotash'
+
+if ['-v', '--version'].include? ARGV[0]
+  puts SagaciousSuccotash::VERSION
+  exit 0
+end
+
+templates_root = File.expand_path(File.join("..", "templates"), File.dirname(__FILE__))
+SagaciousSuccotash::AppGenerator.source_root templates_root
+SagaciousSuccotash::AppGenerator.source_paths << Rails::Generators::AppGenerator.source_root << templates_root
+
+SagaciousSuccotash::AppGenerator.start
