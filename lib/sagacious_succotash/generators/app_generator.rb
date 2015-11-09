@@ -20,6 +20,7 @@ module SagaciousSuccotash
       invoke :convert_erbs_to_haml
       invoke :setup_layout
       invoke :setup_stylesheets
+      invoke :setup_javascript
       invoke :setup_mailer
       invoke :outro
     end
@@ -69,6 +70,12 @@ module SagaciousSuccotash
 
     def setup_stylesheets
       build :setup_stylesheets
+    end
+
+    def setup_javascript
+      build :require_self_before_require_tree
+      build :add_javascript_namespace
+      build :remove_turbolinks
     end
 
     def setup_mailer

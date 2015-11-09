@@ -133,6 +133,22 @@ module SagaciousSuccotash
       directory 'stylesheets', 'app/assets/stylesheets'
     end
 
+    def require_self_before_require_tree
+      insert_into_file(
+        'app/assets/javascripts/application.js',
+        "//= require_self\n",
+        before: '//= require_tree .'
+      )
+    end
+
+    def add_javascript_namespace
+      append_to_file 'app/assets/javascripts/application.js', "\nwindow.#{app_name.camelize} = {};"
+    end
+
+    def remove_turbolinks
+      gsub_file 'app/assets/javascripts/application.js', "//= require turbolinks\n", ''
+    end
+
     def setup_application_mailer
       template 'mailer/application_mailer.rb.erb', 'app/mailers/application_mailer.rb'
     end
