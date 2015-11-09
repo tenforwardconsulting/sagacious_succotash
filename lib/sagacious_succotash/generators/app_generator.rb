@@ -15,6 +15,7 @@ module SagaciousSuccotash
       invoke :setup_database
       invoke :setup_simple_form
       invoke :setup_development_environment
+      invoke :setup_test_environment
       invoke :outro
     end
 
@@ -46,6 +47,11 @@ module SagaciousSuccotash
       build :set_sass_as_preferred_stylesheet_syntax
       build :configure_generators
       build :configure_i18n_for_missing_translations
+    end
+
+    def setup_test_environment
+      build :generate_rspec
+      build :configure_rspec
     end
 
     def outro
