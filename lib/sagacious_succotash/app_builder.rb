@@ -128,12 +128,22 @@ module SagaciousSuccotash
       copy_file '_nav.haml', 'app/views/layouts/_nav.haml'
     end
 
+    def setup_stylesheets
+      remove_file 'app/assets/stylesheets/application.css'
+      directory 'stylesheets', 'app/assets/stylesheets'
+    end
+
     def setup_application_mailer
-      template 'application_mailer.rb.erb', 'app/mailers/application_mailer.rb'
+      template 'mailer/application_mailer.rb.erb', 'app/mailers/application_mailer.rb'
     end
 
     def setup_mailer_layout
-      copy_file 'mailer.html.haml', 'app/views/layouts/mailer.html.haml'
+      copy_file 'mailer/mailer.html.haml', 'app/views/layouts/mailer.html.haml'
+    end
+
+    def setup_mailer_stylesheets
+      copy_file 'mailer/email.sass', 'app/assets/stylesheets/email.sass'
+      directory 'mailer/email', 'app/assets/stylesheets/email'
     end
 
     private

@@ -49,7 +49,8 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/tenfor
 
 ## TODO
 
-* Figure out how to not generate scaffold.sass. There doesn't appear to be an option for it.
+1 Use ems instead of px for margin/padding?
+2 Figure out how to not generate scaffold.sass. There doesn't appear to be an option for it.
 
 ## FIXME
 Things I know are broken right now that I don't want to forget about

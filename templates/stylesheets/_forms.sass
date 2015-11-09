@@ -1,0 +1,47 @@
+@import "compass/typography/text/force-wrap"
+
+.form-inputs, .form-actions
+  margin-bottom: 10px
+
+.input
+  margin-bottom: 10px
+
+  // General form styles
+  input, select, textarea
+    background-color: white
+    border-radius: 4px
+    border: none
+    font-size: 14px
+    height: 40px
+
+  // String inputs
+  input.string, input.numeric, input.password, select
+    padding: 4px 8px
+    width: 100%
+
+  input[type=checkbox]
+    height: auto
+
+  span.radio
+    label
+      display: block
+
+    input[type=radio]
+      height: auto
+
+.btn, a.btn:visited
+  +force-wrap
+  background-color: #0266c8
+  border-radius: 4px
+  border: 0
+  color: white
+  cursor: pointer
+  font-size: 16px
+  max-width: 100%
+  padding: 12px
+
+  &:hover
+    background-color: #1188cc
+    text-decoration: none
+  &:active
+    color: $black

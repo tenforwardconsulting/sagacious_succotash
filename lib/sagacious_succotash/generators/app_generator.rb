@@ -19,6 +19,7 @@ module SagaciousSuccotash
       invoke :setup_test_environment
       invoke :convert_erbs_to_haml
       invoke :setup_layout
+      invoke :setup_stylesheets
       invoke :setup_mailer
       invoke :outro
     end
@@ -66,9 +67,14 @@ module SagaciousSuccotash
       build :setup_application_layout
     end
 
+    def setup_stylesheets
+      build :setup_stylesheets
+    end
+
     def setup_mailer
       build :setup_application_mailer
       build :setup_mailer_layout
+      build :setup_mailer_stylesheets
     end
 
     def outro
