@@ -35,10 +35,26 @@ After checking out the repo, run `bin/setup` to install dependencies. Then, run 
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
+## Testing
+
+  bin/test
+
+## Troubleshooting
+
+* `bundle install` locking up: The first time I ran `bin/test` I had to kill it (Ctrl-C) and go into `tmp/dummy_app` and `bundle install` myself. After that, running `bin/test` worked as expected.
+
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/sagacious_succotash.
+Bug reports and pull requests are welcome on GitHub at https://github.com/tenforwardconsulting/sagacious\_succotash.
 
+## TODO
+
+* Figure out how to not generate scaffold.sass. There doesn't appear to be an option for it.
+
+## FIXME
+Things I know are broken right now that I don't want to forget about
+* mailer layout requires email stylesheet which isn't copied over yet. Should be added to the setup\_mailer method
+* ApplicationMailer uses Devise.mailer\_sender but Devise isn't installed yet. Should maybe give ApplicationMailer a reasonable default and have the install\_devise method change it to Devise.mailer\_sender.
 
 ## License
 

@@ -3,6 +3,7 @@ require 'rails/generators/rails/app/app_generator'
 
 module SagaciousSuccotash
   class AppGenerator < Rails::Generators::AppGenerator
+    include SagaciousSuccotash::Helpers
 
     def finish_template
       invoke :sagacious_succotash_customization

@@ -5,7 +5,7 @@ module RequestHelpers
 
   def add_authentication_headers(client)
     headers.merge!({
-      'X-<%= app_name.split('_').map(&:capitalize).join('-') %>-Token' => client.authentication_token
+      'X-<%= app_name_capitalized_dasherized %>-Token' => client.authentication_token
     })
   end
 

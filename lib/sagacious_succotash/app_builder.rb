@@ -1,6 +1,7 @@
 module SagaciousSuccotash
   class AppBuilder < Rails::AppBuilder
     include SagaciousSuccotash::Actions
+    include SagaciousSuccotash::Helpers
 
     def replace_gemfile
       remove_file 'Gemfile'
@@ -39,38 +40,40 @@ module SagaciousSuccotash
 
     def raise_on_delivery_errors
       replace_in_file 'config/environments/development.rb',
+        "# Don't care if the mailer can't send.", "# Raise error if the mailer can't send"
+      replace_in_file 'config/environments/development.rb',
         'raise_delivery_errors = false', 'raise_delivery_errors = true'
     end
 
     def set_mailer_delivery_method
       inject_into_file(
         "config/environments/development.rb",
-        "\n  config.action_mailer.delivery_method = :test",
+        "\n\n  # Open emails with letter_opener\n  config.action_mailer.delivery_method = :letter_opener",
         after: "config.action_mailer.raise_delivery_errors = true",
       )
     end
 
     def raise_on_unpermitted_parameters
       config = <<-RUBY
+    # Raise an error for unpermitted parameters.
     config.action_controller.action_on_unpermitted_parameters = :raise
+
       RUBY
       inject_into_class "config/application.rb", "Application", config
     end
 
     def set_sass_as_preferred_stylesheet_syntax
       config = <<-RUBY
-
-    # Use .sass instead of .scss
+    # Use .sass instead of .scss.
     config.sass.preferred_syntax = :sass
+
       RUBY
       inject_into_class 'config/application.rb', 'Application', config
     end
 
     def configure_generators
       config = <<-RUBY
-
     # No helper, javascript, jbuilder files or extraneous spec files.
-    # TODO Figure out how to not generate scaffold.sass. There doesn't appear to be an option for it.
     config.generators do |generate|
       generate.helper false
       generate.javascripts false
@@ -81,8 +84,9 @@ module SagaciousSuccotash
         routing_specs: false,
         view_specs: false
       }
-      generate.factory_girl filename_proc: -> (table_name) { "#{table_name}_factory" } # Only works for master branch of FactoryGirl.
+      generate.factory_girl filename_proc: -> (table_name) { "\#{table_name}_factory" } # Only works for master branch of FactoryGirl.
     end
+
       RUBY
       inject_into_class 'config/application.rb', 'Application', config
     end
@@ -109,7 +113,7 @@ module SagaciousSuccotash
       copy_file "devise.rb"             , "spec/support/devise.rb"
       copy_file "feature_helpers.rb"    , "spec/support/feature_helpers.rb"
       # TODO Move to api install area after that's added
-      copy_file "request_helpers.rb.erb", "spec/support/request_helpers.rb.erb"
+      template "request_helpers.rb.erb", "spec/support/request_helpers.rb"
       copy_file "timecop.rb"            , "spec/support/timecop.rb"
       copy_file "vcr.rb"                , "spec/support/vcr.rb"
       copy_file "wait_for_ajax.rb"      , "spec/support/wait_for_ajax.rb"
@@ -125,7 +129,7 @@ module SagaciousSuccotash
     end
 
     def setup_application_mailer
-      template 'application_mailer.rb.erb', 'app/mailers/application_mailer.rb.erb'
+      template 'application_mailer.rb.erb', 'app/mailers/application_mailer.rb'
     end
 
     def setup_mailer_layout
