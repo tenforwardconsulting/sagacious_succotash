@@ -49,14 +49,13 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/tenfor
 
 ## TODO
 
-1 Use ems instead of px for margin/padding?
-2 Do emails have some sort of default style? Add one if there's not.
-2 Figure out how to not generate scaffold.sass. There doesn't appear to be an option for it.
+1. Use ems instead of px for margin/padding?
+2. Do emails have some sort of default style? Add one if there's not.
+3. Figure out how to not generate scaffold.sass. There doesn't appear to be an option for it.
 
 ## FIXME
-Things I know are broken right now that I don't want to forget about
-* ApplicationMailer uses Devise.mailer\_sender but Devise isn't installed yet. Give ApplicationMailer a reasonable default and have the install devise method change it to `Devise.mailer_sender`.
-* The application layout uses `current_user` even but Devise isn't installed yet. Have the devise method add the auth links to the layout instead of having them there by default.
+Things I know are broken right now that I don't want to forget about:
+* _None_
 
 ## License
 
