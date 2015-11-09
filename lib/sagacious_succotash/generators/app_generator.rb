@@ -14,6 +14,7 @@ module SagaciousSuccotash
       invoke :setup_rvm
       invoke :setup_database
       invoke :setup_simple_form
+      invoke :setup_development_environment
       invoke :outro
     end
 
@@ -36,6 +37,15 @@ module SagaciousSuccotash
 
     def setup_simple_form
       build :configure_simple_form
+    end
+
+    def setup_development_environment
+      build :raise_on_delivery_errors
+      build :set_mailer_delivery_method
+      build :raise_on_unpermitted_parameters
+      build :set_sass_as_preferred_stylesheet_syntax
+      build :configure_generators
+      build :configure_i18n_for_missing_translations
     end
 
     def outro
