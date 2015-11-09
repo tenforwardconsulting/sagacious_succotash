@@ -49,6 +49,8 @@ module SagaciousSuccotash
     def setup_development_environment
       build :raise_on_delivery_errors
       build :set_mailer_delivery_method
+      build :perform_deliveries
+      build :set_default_url_options
       build :raise_on_unpermitted_parameters
       build :set_sass_as_preferred_stylesheet_syntax
       build :configure_generators
@@ -82,6 +84,7 @@ module SagaciousSuccotash
       build :setup_application_mailer
       build :setup_mailer_layout
       build :setup_mailer_stylesheets
+      build :precompile_email_sass
     end
 
     def outro

@@ -40,7 +40,7 @@ module SagaciousSuccotash
 
     def raise_on_delivery_errors
       replace_in_file 'config/environments/development.rb',
-        "# Don't care if the mailer can't send.", "# Raise error if the mailer can't send"
+        "# Don't care if the mailer can't send.", "# Raise error if the mailer can't send."
       replace_in_file 'config/environments/development.rb',
         'raise_delivery_errors = false', 'raise_delivery_errors = true'
     end
@@ -48,8 +48,24 @@ module SagaciousSuccotash
     def set_mailer_delivery_method
       inject_into_file(
         "config/environments/development.rb",
-        "\n\n  # Open emails with letter_opener\n  config.action_mailer.delivery_method = :letter_opener",
+        "\n\n  # Open emails with letter_opener.\n  config.action_mailer.delivery_method = :letter_opener",
         after: "config.action_mailer.raise_delivery_errors = true",
+      )
+    end
+
+    def perform_deliveries
+      inject_into_file(
+        "config/environments/development.rb",
+        "\n\n  # Send emails.\n  config.action_mailer.perform_deliveries = true",
+        after: "config.action_mailer.delivery_method = :letter_opener",
+      )
+    end
+
+    def set_default_url_options
+      inject_into_file(
+        "config/environments/development.rb",
+        "\n\n  # Set email host.\n  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }",
+        after: "config.action_mailer.perform_deliveries = true",
       )
     end
 
@@ -160,6 +176,10 @@ module SagaciousSuccotash
     def setup_mailer_stylesheets
       copy_file 'mailer/email.sass', 'app/assets/stylesheets/email.sass'
       directory 'mailer/email', 'app/assets/stylesheets/email'
+    end
+
+    def precompile_email_sass
+      append_to_file 'config/initializers/assets.rb', "Rails.application.config.assets.precompile += %w(email.css)"
     end
 
     private
