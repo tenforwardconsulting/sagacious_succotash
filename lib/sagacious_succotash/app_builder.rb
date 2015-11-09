@@ -8,6 +8,12 @@ module SagaciousSuccotash
       template 'Gemfile.erb', 'Gemfile'
     end
 
+    def remove_comments_from_routes
+      replace_in_file 'config/routes.rb',
+        /Rails\.application\.routes\.draw do.*end/m,
+        "Rails.application.routes.draw do\nend"
+    end
+
     def set_ruby_to_version_being_used
       create_file '.ruby-version', "#{SagaciousSuccotash::RUBY_VERSION}\n"
     end
@@ -180,6 +186,16 @@ module SagaciousSuccotash
 
     def precompile_email_sass
       append_to_file 'config/initializers/assets.rb', "Rails.application.config.assets.precompile += %w(email.css)"
+    end
+
+    def setup_home_controller
+      copy_file 'home_controller.rb', 'app/controllers/home_controller.rb'
+      create_file 'app/views/home/index.html.haml', ''
+      insert_into_file(
+        'config/routes.rb',
+        "\n  root to: 'home#index'",
+        after: 'Rails.application.routes.draw do'
+      )
     end
 
     private

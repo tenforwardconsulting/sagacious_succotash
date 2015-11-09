@@ -12,6 +12,7 @@ module SagaciousSuccotash
 
     def sagacious_succotash_customization
       invoke :customize_gemfile
+      invoke :customize_routes
       invoke :setup_rvm
       invoke :setup_database
       invoke :setup_simple_form
@@ -22,11 +23,16 @@ module SagaciousSuccotash
       invoke :setup_stylesheets
       invoke :setup_javascript
       invoke :setup_mailer
+      invoke :setup_home_controller
       invoke :outro
     end
 
     def customize_gemfile
       build :replace_gemfile
+    end
+
+    def customize_routes
+      build :remove_comments_from_routes
     end
 
     def setup_rvm
@@ -85,6 +91,10 @@ module SagaciousSuccotash
       build :setup_mailer_layout
       build :setup_mailer_stylesheets
       build :precompile_email_sass
+    end
+
+    def setup_home_controller
+      build :setup_home_controller
     end
 
     def outro
