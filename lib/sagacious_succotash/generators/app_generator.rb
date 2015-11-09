@@ -24,6 +24,7 @@ module SagaciousSuccotash
       invoke :setup_javascript
       invoke :setup_mailer
       invoke :setup_home_controller
+      invoke :setup_devise
       invoke :outro
     end
 
@@ -95,6 +96,25 @@ module SagaciousSuccotash
 
     def setup_home_controller
       build :setup_home_controller
+    end
+
+    def setup_devise
+      build :install_devise
+      build :set_parent_mailer
+      build :change_min_password_length
+      build :allow_get_request_to_log_out
+      build :change_application_mailer_default_from
+      build :setup_devise_stylesheet
+      build :setup_devise_spec_support
+      build :add_auth_links_to_nav
+      build :generate_user_model
+      build :add_admin_to_user_model
+      build :add_admin_methods_to_application_controller
+      build :setup_users_factory
+      build :configure_devise_routes
+      # TODO
+      # create basic crud pages and stylesheet? This should use controller scaffold (need to copy over templates/generators for this)
+      # Controller should have correct authorization (pundit?)
     end
 
     def outro

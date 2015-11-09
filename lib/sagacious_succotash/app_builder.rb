@@ -41,7 +41,7 @@ module SagaciousSuccotash
     end
 
     def configure_simple_form
-      bundle_command "exec rails generate simple_form:install"
+      generate "simple_form:install"
     end
 
     def raise_on_delivery_errors
@@ -131,8 +131,6 @@ module SagaciousSuccotash
       copy_file "capybara_screenshot.rb", "spec/support/capybara_screenshot.rb"
       copy_file "controller_helpers.rb" , "spec/support/controller_helpers.rb"
       copy_file "database_cleaner.rb"   , "spec/support/database_cleaner.rb"
-      # TODO Move to devise install area after that's added
-      copy_file "devise.rb"             , "spec/support/devise.rb"
       copy_file "feature_helpers.rb"    , "spec/support/feature_helpers.rb"
       # TODO Move to api install area after that's added
       template "request_helpers.rb.erb", "spec/support/request_helpers.rb"
@@ -147,6 +145,7 @@ module SagaciousSuccotash
 
     def setup_application_layout
       template 'application.html.haml.erb', 'app/views/layouts/application.html.haml', force: true
+      copy_file 'application_helper.rb', 'app/helpers/application_helper.rb', force: true
       copy_file '_nav.haml', 'app/views/layouts/_nav.haml'
     end
 
@@ -196,6 +195,105 @@ module SagaciousSuccotash
         "\n  root to: 'home#index'",
         after: 'Rails.application.routes.draw do'
       )
+    end
+
+    def install_devise
+      generate "devise:install"
+      generate "devise:views"
+      rake "haml:replace_erbs"
+    end
+
+
+    def set_parent_mailer
+      insert_into_file(
+        'config/initializers/devise.rb',
+        "\n\n  # Set parent mailer so devise will have ApplicationMailer settings.\n  config.parent_mailer = 'ApplicationMailer'",
+        after: "# config.mailer = 'Devise::Mailer'"
+      )
+    end
+
+    def change_min_password_length
+      gsub_file 'config/initializers/devise.rb', "config.password_length = 8..72", "config.password_length = 6..128"
+    end
+
+    def allow_get_request_to_log_out
+      gsub_file 'config/initializers/devise.rb', "config.sign_out_via = :delete", "config.sign_out_via = [:delete, :get]"
+    end
+
+    def change_application_mailer_default_from
+      gsub_file 'app/mailers/application_mailer.rb', "default from: 'please-change-me@example.com'", "default from: 'Devise.mailer_sender'"
+    end
+
+    def setup_devise_stylesheet
+      copy_file 'devise_stylesheet.sass', 'app/assets/stylesheets/_devise.sass'
+      insert_into_file(
+        'app/assets/stylesheets/application.sass',
+        "\n@import devise",
+        after: '@import layout'
+      )
+    end
+
+    def setup_devise_spec_support
+      copy_file "devise_spec_support.rb", "spec/support/devise.rb"
+    end
+
+    def add_auth_links_to_nav
+      append_to_file 'app/views/layouts/_nav.haml', <<-HAML
+  .float-right
+    - if current_user
+      %li= link_to "Log out", destroy_user_session_path
+    - else
+      %li= link_to "Sign up", new_user_registration_path
+      %li= link_to "Log in", new_user_session_path
+      HAML
+    end
+
+    def generate_user_model
+      generate "devise User"
+    end
+
+    def add_admin_to_user_model
+      generate "migration add_admin_to_users admin:boolean"
+      admin_migration = Dir['db/migrate/*'].first
+      gsub_file admin_migration, "add_column :users, :admin, :boolean", "add_column :users, :admin, :boolean, default: false, null: false"
+      bundle_command 'exec rake db:migrate'
+    end
+
+    def add_admin_methods_to_application_controller
+      insert_into_file 'app/controllers/application_controller.rb', after: "protect_from_forgery with: :exception\n" do
+        <<-RUBY
+
+  def current_admin
+    current_user.try(:admin?) ? current_user : nil
+  end
+  helper_method :current_admin
+
+  def require_admin
+    render_not_authorized unless current_admin
+  end
+
+  def render_not_authorized
+    flash[:alert] = 'Not authorized'
+    if request.referrer
+      #Rollbar.error "User clicked a link that shouldn't have been visible to them. Fix this."
+      redirect_to request.referrer
+    elsif current_user
+      redirect_to after_sign_in_path_for(current_user)
+    else
+      redirect_to root_path
+    end
+  end
+        RUBY
+      end
+      copy_file 'application_controller_spec.rb', 'spec/controllers/application_controller_spec.rb'
+    end
+
+    def configure_devise_routes
+      gsub_file 'config/routes.rb', "devise_for :users", "devise_for :users, path: 'auth'"
+    end
+
+    def setup_users_factory
+      copy_file 'users_factory.rb', 'spec/factories/users_factory.rb', force: true
     end
 
     private

@@ -15,4 +15,4 @@
     - if alert
       .alert= alert
 
-    %main{class: "#{params[:controller]}-view #{params[:controller]}-#{params[:action]}"}= yield
+    %main{class: css_classes_for_main}= yield

@@ -6,19 +6,7 @@ TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'sagacious_succotash'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install sagacious_succotash
+Clone the repo.
 
 ## Before Using
 
@@ -27,7 +15,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    bin/sagacious_succotash path/new/new/project
 
 ## Development
 
@@ -49,13 +37,16 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/tenfor
 
 ## TODO
 
-1. Use ems instead of px for margin/padding?
-2. Do emails have some sort of default style? Add one if there's not.
-3. Figure out how to not generate scaffold.sass. There doesn't appear to be an option for it.
+1. Add rollbar
+2. Use ems instead of px for margin/padding?
+3. Extract shared base from application.sass and email.sass to its own file and include it.
+4. Do emails have some sort of default style? Add one if there's not.
+5. Figure out how to not generate scaffold.sass. There doesn't appear to be an option for it.
+6. Get a better name and put on rubygems.
 
 ## FIXME
 Things I know are broken right now that I don't want to forget about:
-* _None_
+* Fix the css classes in `devise_stylesheet` and `devise_email_stylesheet`. Need to figure out what they really should be (current ones were guessed and probably wrong).
 
 ## License
 

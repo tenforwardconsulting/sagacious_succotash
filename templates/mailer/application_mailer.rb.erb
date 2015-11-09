@@ -11,7 +11,7 @@ class ApplicationMailer < ActionMailer::Base
 
   def calling_method
     caller
-      .find { |str| str.include? mailer.class.name.underscore }
+      .find { |str| str.include? "#{self.class.name.underscore}.rb" }
       .match(/`(.*)'/)
       .captures
       .first
@@ -19,7 +19,7 @@ class ApplicationMailer < ActionMailer::Base
   helper_method :calling_method
 
   def mailer_css_class
-    mailer.class.name.underscore.dasherize
+    self.class.name.underscore.dasherize
   end
   helper_method :mailer_css_class
 
