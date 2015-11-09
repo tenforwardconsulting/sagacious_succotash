@@ -1,0 +1,30 @@
+class ApplicationMailer < ActionMailer::Base
+  default from: 'Devise.mailer_sender'
+  layout 'mailer'
+
+  class SubjectPrefixer
+    def self.delivering_email(mail)
+      mail.subject.prepend '[<%= app_name_capitalized_spaced %>] '
+    end
+  end
+  register_interceptor SubjectPrefixer
+
+  def calling_method
+    caller
+      .find { |str| str.include? mailer.class.name.underscore }
+      .match(/`(.*)'/)
+      .captures
+      .first
+  end
+  helper_method :calling_method
+
+  def mailer_css_class
+    mailer.class.name.underscore.dasherize
+  end
+  helper_method :mailer_css_class
+
+  def calling_method_css_class
+    calling_method.dasherize
+  end
+  helper_method :calling_method_css_class
+end

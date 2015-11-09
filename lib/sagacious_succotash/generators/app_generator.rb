@@ -16,6 +16,9 @@ module SagaciousSuccotash
       invoke :setup_simple_form
       invoke :setup_development_environment
       invoke :setup_test_environment
+      invoke :convert_erbs_to_haml
+      invoke :setup_layout
+      invoke :setup_mailer
       invoke :outro
     end
 
@@ -52,6 +55,19 @@ module SagaciousSuccotash
     def setup_test_environment
       build :generate_rspec
       build :configure_rspec
+    end
+
+    def convert_erbs_to_haml
+      build :convert_erbs_to_haml
+    end
+
+    def setup_layout
+      build :setup_application_layout
+    end
+
+    def setup_mailer
+      build :setup_application_mailer
+      build :setup_mailer_layout
     end
 
     def outro

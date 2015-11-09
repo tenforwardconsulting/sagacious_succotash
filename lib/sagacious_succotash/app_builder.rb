@@ -105,12 +105,31 @@ module SagaciousSuccotash
       copy_file "capybara_screenshot.rb", "spec/support/capybara_screenshot.rb"
       copy_file "controller_helpers.rb" , "spec/support/controller_helpers.rb"
       copy_file "database_cleaner.rb"   , "spec/support/database_cleaner.rb"
+      # TODO Move to devise install area after that's added
       copy_file "devise.rb"             , "spec/support/devise.rb"
       copy_file "feature_helpers.rb"    , "spec/support/feature_helpers.rb"
+      # TODO Move to api install area after that's added
       copy_file "request_helpers.rb.erb", "spec/support/request_helpers.rb.erb"
       copy_file "timecop.rb"            , "spec/support/timecop.rb"
       copy_file "vcr.rb"                , "spec/support/vcr.rb"
       copy_file "wait_for_ajax.rb"      , "spec/support/wait_for_ajax.rb"
+    end
+
+    def convert_erbs_to_haml
+      bundle_command 'exec rake haml:replace_erbs'
+    end
+
+    def setup_application_layout
+      template 'application.html.haml.erb', 'app/views/layouts/application.html.haml', force: true
+      copy_file '_nav.haml', 'app/views/layouts/_nav.haml'
+    end
+
+    def setup_application_mailer
+      template 'application_mailer.rb.erb', 'app/mailers/application_mailer.rb.erb'
+    end
+
+    def setup_mailer_layout
+      copy_file 'mailer.html.haml', 'app/views/layouts/mailer.html.haml'
     end
 
     private

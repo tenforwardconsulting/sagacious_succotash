@@ -1,0 +1,7 @@
+!!!
+%html
+  %head
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
+    = stylesheet_link_tag 'email', media: 'all'
+  %body
+    %main{class: "#{mailer_css_class} #{mailer_css_class}-#{calling_method_css_class}"}= yield
