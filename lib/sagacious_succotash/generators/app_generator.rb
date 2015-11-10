@@ -25,6 +25,7 @@ module SagaciousSuccotash
       invoke :setup_mailer
       invoke :setup_home_controller
       invoke :setup_devise
+      invoke :setup_delayed_job
       invoke :outro
     end
 
@@ -115,6 +116,10 @@ module SagaciousSuccotash
       # TODO
       # create basic crud pages and stylesheet? This should use controller scaffold (need to copy over templates/generators for this)
       # Controller should have correct authorization (pundit?)
+    end
+
+    def setup_delayed_job
+      build :setup_delayed_job
     end
 
     def outro

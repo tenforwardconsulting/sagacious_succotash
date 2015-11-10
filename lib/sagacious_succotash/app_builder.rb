@@ -296,6 +296,17 @@ module SagaciousSuccotash
       copy_file 'users_factory.rb', 'spec/factories/users_factory.rb', force: true
     end
 
+    def setup_delayed_job
+      generate 'delayed_job:active_record'
+      bundle_command 'exec rake db:migrate'
+      create_file 'config/initializers/delayed_job.rb' do
+        <<-TEXT
+Rails.application.config.active_job.queue_adapter = :delayed_job
+Delayed::Worker.logger = Logger.new(File.join(Rails.root, 'log', "\#{Rails.env}_delayed_job.log"))
+        TEXT
+      end
+    end
+
     private
 
     def raise_on_missing_translations_in(environment)
