@@ -181,6 +181,10 @@ module SagaciousSuccotash
       gsub_file 'app/assets/javascripts/application.js', "//= require turbolinks\n", ''
     end
 
+    def setup_templates
+      directory 'templates', 'lib/templates'
+    end
+
     def setup_application_mailer
       template 'mailer/application_mailer.rb.erb', 'app/mailers/application_mailer.rb'
     end

@@ -38,6 +38,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/tenfor
 ## TODO
 
 1. Add rollbar
+2. Add option to create api files
 2. Use ems instead of px for margin/padding?
 3. Extract shared base from application.sass and email.sass to its own file and include it?
 4. Figure out how to not generate scaffold.sass. There doesn't appear to be an option for it.

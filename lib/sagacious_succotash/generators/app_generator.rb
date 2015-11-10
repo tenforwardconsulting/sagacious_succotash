@@ -23,6 +23,7 @@ module SagaciousSuccotash
       invoke :setup_layout
       invoke :setup_stylesheets
       invoke :setup_javascript
+      invoke :setup_templates
       invoke :setup_mailer
       invoke :setup_home_controller
       invoke :setup_devise
@@ -94,6 +95,10 @@ module SagaciousSuccotash
       build :require_self_before_require_tree
       build :add_javascript_namespace
       build :remove_turbolinks
+    end
+
+    def setup_templates
+      build :setup_templates
     end
 
     def setup_mailer
