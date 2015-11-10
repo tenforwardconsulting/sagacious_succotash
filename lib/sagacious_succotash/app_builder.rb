@@ -32,6 +32,17 @@ module SagaciousSuccotash
       run 'gem install bundler'
     end
 
+    def setup_application_yml
+      create_file 'config/application.yml', ''
+      create_file 'config/application.yml.example', ''
+    end
+
+    def setup_secrets_yml
+      template 'secrets.yml.erb', 'config/secrets.yml', force: true
+      append_to_file 'config/application.yml', "SECRET_KEY_BASE: '#{app_secret}'"
+      append_to_file 'config/application.yml.example', "SECRET_KEY_BASE: 'run `rake secret` and put value here'"
+    end
+
     def configure_database
       template 'database.yml.erb', 'config/database.yml', force: true
     end
@@ -305,6 +316,32 @@ Rails.application.config.active_job.queue_adapter = :delayed_job
 Delayed::Worker.logger = Logger.new(File.join(Rails.root, 'log', "\#{Rails.env}_delayed_job.log"))
         TEXT
       end
+    end
+
+    def install_capistrano
+      bundle_command 'exec cap install STAGES=dev,production'
+    end
+
+    def configure_deploys
+      copy_file 'deploy_dev.rb', 'config/deploy/dev.rb', force: true
+      copy_file 'deploy_production.rb', 'config/deploy/production.rb', force: true
+      template 'deploy.rb.erb', 'config/deploy.rb', force: true
+    end
+
+    def setup_dev_environments_file
+      run 'cp config/environments/production.rb config/environments/dev.rb'
+      gsub_file 'config/environments/dev.rb', 'config.consider_all_requests_local       = false', 'config.consider_all_requests_local       = true'
+    end
+
+    def configure_capfile
+      append_to_file 'Capfile', "\nrequire 'jefferies_tube/capistrano'"
+      gsub_file 'Capfile', "# require 'capistrano/rails/assets'\n# require 'capistrano/rails/migrations'", "require 'capistrano/rails'"
+      gsub_file 'Capfile', "# require 'capistrano/passenger'", "require 'capistrano/passenger'"
+    end
+
+    def setup_git
+      append_to_file '.gitignore', "\nconfig/application.yml\nconfig/database.yml"
+      run 'git init'
     end
 
     private

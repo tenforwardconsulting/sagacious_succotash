@@ -39,10 +39,9 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/tenfor
 
 1. Add rollbar
 2. Use ems instead of px for margin/padding?
-3. Extract shared base from application.sass and email.sass to its own file and include it.
-4. Do emails have some sort of default style? Add one if there's not.
-5. Figure out how to not generate scaffold.sass. There doesn't appear to be an option for it.
-6. Get a better name and put on rubygems.
+3. Extract shared base from application.sass and email.sass to its own file and include it?
+4. Figure out how to not generate scaffold.sass. There doesn't appear to be an option for it.
+5. Get a better name and put on rubygems.
 
 ## FIXME
 Things I know are broken right now that I don't want to forget about:

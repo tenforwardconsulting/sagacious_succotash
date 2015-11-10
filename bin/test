@@ -1,5 +1,5 @@
 #!/bin/sh
 
 dropdb dummy_app_development
-rm -r tmp/dummy_app
+rm -rf tmp/dummy_app
 ./bin/sagacious_succotash tmp/dummy_app

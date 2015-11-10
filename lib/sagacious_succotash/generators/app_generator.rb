@@ -14,6 +14,7 @@ module SagaciousSuccotash
       invoke :customize_gemfile
       invoke :customize_routes
       invoke :setup_rvm
+      invoke :configure_app
       invoke :setup_database
       invoke :setup_simple_form
       invoke :setup_development_environment
@@ -26,6 +27,8 @@ module SagaciousSuccotash
       invoke :setup_home_controller
       invoke :setup_devise
       invoke :setup_delayed_job
+      invoke :setup_capistrano
+      invoke :setup_git
       invoke :outro
     end
 
@@ -43,6 +46,11 @@ module SagaciousSuccotash
       build :make_rvm_use_application_gemset
       build :install_bundler_gem
       bundle_command 'install'
+    end
+
+    def configure_app
+      build :setup_application_yml
+      build :setup_secrets_yml
     end
 
     def setup_database
@@ -120,6 +128,17 @@ module SagaciousSuccotash
 
     def setup_delayed_job
       build :setup_delayed_job
+    end
+
+    def setup_capistrano
+      build :install_capistrano
+      build :configure_deploys
+      build :setup_dev_environments_file
+      build :configure_capfile
+    end
+
+    def setup_git
+      build :setup_git
     end
 
     def outro
