@@ -68,6 +68,7 @@ module SagaciousSuccotash
       build :set_mailer_delivery_method
       build :perform_deliveries
       build :set_default_url_options
+      build :setup_letter_opener_web
       build :raise_on_unpermitted_parameters
       build :set_sass_as_preferred_stylesheet_syntax
       build :configure_generators

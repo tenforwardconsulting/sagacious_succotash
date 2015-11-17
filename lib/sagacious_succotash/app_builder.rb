@@ -86,6 +86,17 @@ module SagaciousSuccotash
       )
     end
 
+    def setup_letter_opener_web
+      insert_into_file 'config/routes.rb', after: 'Rails.application.routes.draw do' do
+        <<-TEXT
+
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
+        TEXT
+      end
+    end
+
     def raise_on_unpermitted_parameters
       config = <<-RUBY
     # Raise an error for unpermitted parameters.
@@ -207,7 +218,7 @@ module SagaciousSuccotash
       create_file 'app/views/home/index.html.haml', ''
       insert_into_file(
         'config/routes.rb',
-        "\n  root to: 'home#index'",
+        "\n  root to: 'home#index'\n",
         after: 'Rails.application.routes.draw do'
       )
     end
@@ -304,7 +315,7 @@ module SagaciousSuccotash
     end
 
     def configure_devise_routes
-      gsub_file 'config/routes.rb', "devise_for :users", "devise_for :users, path: 'auth'"
+      gsub_file 'config/routes.rb', "devise_for :users", "devise_for :users, path: 'auth'\n"
     end
 
     def setup_users_factory
