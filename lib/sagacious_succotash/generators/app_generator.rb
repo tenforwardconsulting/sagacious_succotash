@@ -11,6 +11,7 @@ module SagaciousSuccotash
     end
 
     def sagacious_succotash_customization
+      invoke :customize_readme
       invoke :customize_gemfile
       invoke :customize_routes
       invoke :setup_rvm
@@ -31,6 +32,10 @@ module SagaciousSuccotash
       invoke :setup_capistrano
       invoke :setup_git
       invoke :outro
+    end
+
+    def customize_readme
+      build :replace_readme
     end
 
     def customize_gemfile
