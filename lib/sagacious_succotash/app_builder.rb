@@ -3,6 +3,11 @@ module SagaciousSuccotash
     include SagaciousSuccotash::Actions
     include SagaciousSuccotash::Helpers
 
+    def replace_readme
+      remove_file 'README.rdoc'
+      template 'README.md.erb', 'README.md'
+    end
+
     def replace_gemfile
       remove_file 'Gemfile'
       template 'Gemfile.erb', 'Gemfile'
