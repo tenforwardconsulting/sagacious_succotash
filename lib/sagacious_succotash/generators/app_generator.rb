@@ -101,6 +101,7 @@ module SagaciousSuccotash
       build :require_self_before_require_tree
       build :add_javascript_namespace
       build :remove_turbolinks
+      build :add_responsive_tables
     end
 
     def setup_templates

@@ -1,0 +1,46 @@
+@media (max-width: 768px)
+  .table
+    table, thead, tbody, th, td, tr
+      display: block
+
+    thead tr
+      display: none
+
+    tbody td
+      // Make td more like tr
+      text-align: left
+      position: relative
+      padding-left: 50%
+
+      // But make sure button text is still centered
+      .btn
+        text-align: center
+
+      // Make a header
+      &::before
+        content: attr(data-header) // data-header gets set via javascript
+        font-weight: 700
+        left: 6px
+        padding-right: 10px
+        position: absolute
+        top: 5px
+        white-space: nowrap
+        width: 20%
+
+      &:first-child
+        border-right: none
+
+    tr
+      border: 1px solid #ccc
+      margin-bottom: 10px
+
+@media (max-width: 480px)
+  .table
+    tbody td
+      padding-left: 33%
+
+@media (max-width: 1200px)
+  .edit-table
+    tbody tr
+      height: auto
+

@@ -197,6 +197,10 @@ module SagaciousSuccotash
       gsub_file 'app/assets/javascripts/application.js', "//= require turbolinks\n", ''
     end
 
+    def add_responsive_tables
+      template 'responsive_tables.coffee.erb', 'app/assets/javascripts/responsive_tables.coffee'
+    end
+
     def setup_templates
       directory 'templates', 'lib/templates'
     end
