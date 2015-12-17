@@ -29,6 +29,7 @@ module SagaciousSuccotash
       invoke :setup_home_controller
       invoke :setup_devise
       invoke :setup_archivable
+      invoke :setup_auth_token_authenticatable
       invoke :setup_delayed_job
       invoke :setup_capistrano
       invoke :setup_git
@@ -143,6 +144,10 @@ module SagaciousSuccotash
       build :copy_archivable_concern_and_spec
       build :add_archivable_to_user
       build :stop_archived_users_from_signing_in
+    end
+
+    def setup_auth_token_authenticatable
+      build :copy_auth_token_concern_and_spec
     end
 
     def setup_delayed_job

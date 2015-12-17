@@ -365,6 +365,10 @@ module SagaciousSuccotash
       end
     end
 
+    def copy_auth_token_concern_and_spec
+      copy_file 'auth_token_authenticatable.rb', 'app/models/concerns/auth_token_authenticatable.rb'
+    end
+
     def setup_delayed_job
       generate 'delayed_job:active_record'
       bundle_command 'exec rake db:migrate'
