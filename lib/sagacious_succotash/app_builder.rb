@@ -323,12 +323,46 @@ module SagaciousSuccotash
       copy_file 'application_controller_spec.rb', 'spec/controllers/application_controller_spec.rb'
     end
 
+    def setup_users_factory
+      copy_file 'users_factory.rb', 'spec/factories/users_factory.rb', force: true
+    end
+
     def configure_devise_routes
       gsub_file 'config/routes.rb', "devise_for :users", "devise_for :users, path: 'auth'\n"
     end
 
-    def setup_users_factory
-      copy_file 'users_factory.rb', 'spec/factories/users_factory.rb', force: true
+    def copy_archivable_concern_and_spec
+      copy_file 'archivable.rb', 'app/models/concerns/archivable.rb'
+      copy_file 'archivable_shared_examples.rb', 'spec/shared_examples/archivable_shared_examples.rb'
+    end
+
+    def add_archivable_to_user
+      generate 'migration add_archived_at_to_users archived_at:datetime'
+      rake 'db:migrate'
+      insert_into_file(
+        'app/models/user.rb',
+        "  include Archivable\n\n",
+        after: "class User < ActiveRecord::Base\n"
+      )
+      insert_into_file(
+        'spec/models/user_spec.rb',
+        "  it_behaves_like Archivable\n",
+        after: "RSpec.describe User do\n"
+      )
+      gsub_file 'config/locales/devise.en.yml', 'Your account is not activated yet.', 'Your account is not active.'
+    end
+
+    def stop_archived_users_from_signing_in
+      insert_into_file 'app/models/user.rb', after: " :recoverable, :rememberable, :trackable, :validatable\n" do
+        <<-TEXT
+
+  # Devise
+
+  def active_for_authentication?
+    super && !archived?
+  end
+        TEXT
+      end
     end
 
     def setup_delayed_job
