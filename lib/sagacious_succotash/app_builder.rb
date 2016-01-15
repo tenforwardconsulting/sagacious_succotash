@@ -152,18 +152,18 @@ module SagaciousSuccotash
     def configure_rspec
       remove_file "spec/rails_helper.rb"
       remove_file "spec/spec_helper.rb"
-      copy_file "rails_helper.rb", "spec/rails_helper.rb"
-      copy_file "spec_helper.rb" , "spec/spec_helper.rb"
-      copy_file "capybara.rb"           , "spec/support/capybara.rb"
-      copy_file "capybara_screenshot.rb", "spec/support/capybara_screenshot.rb"
-      copy_file "controller_helpers.rb" , "spec/support/controller_helpers.rb"
-      copy_file "database_cleaner.rb"   , "spec/support/database_cleaner.rb"
-      copy_file "feature_helpers.rb"    , "spec/support/feature_helpers.rb"
-      # TODO Move to api install area after that's added
-      template "request_helpers.rb.erb", "spec/support/request_helpers.rb"
-      copy_file "timecop.rb"            , "spec/support/timecop.rb"
-      copy_file "vcr.rb"                , "spec/support/vcr.rb"
-      copy_file "wait_for_ajax.rb"      , "spec/support/wait_for_ajax.rb"
+      copy_file "rails_helper.rb"        , "spec/rails_helper.rb"
+      copy_file "spec_helper.rb"         , "spec/spec_helper.rb"
+      copy_file "capybara.rb"            , "spec/support/capybara.rb"
+      copy_file "shared_examples.rb"     , "spec/support/shared_examples.rb"
+      copy_file "capybara_screenshot.rb" , "spec/support/capybara_screenshot.rb"
+      copy_file "controller_helpers.rb"  , "spec/support/controller_helpers.rb"
+      copy_file "database_cleaner.rb"    , "spec/support/database_cleaner.rb"
+      copy_file "feature_helpers.rb"     , "spec/support/feature_helpers.rb"
+      template "request_helpers.rb.erb"  , "spec/support/request_helpers.rb" # TODO Move to api install area after that's added
+      copy_file "timecop.rb"             , "spec/support/timecop.rb"
+      copy_file "vcr.rb"                 , "spec/support/vcr.rb"
+      copy_file "wait_for_ajax.rb"       , "spec/support/wait_for_ajax.rb"
     end
 
     def convert_erbs_to_haml
