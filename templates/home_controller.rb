@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
-  def index
+  before_action :skip_authorization
+
+  def show
   end
 end

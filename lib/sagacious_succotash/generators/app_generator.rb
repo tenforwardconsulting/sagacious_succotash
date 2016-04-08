@@ -18,6 +18,7 @@ module SagaciousSuccotash
       invoke :configure_app
       invoke :setup_database
       invoke :setup_simple_form
+      invoke :setup_pundit
       invoke :setup_development_environment
       invoke :setup_test_environment
       invoke :convert_erbs_to_haml
@@ -68,6 +69,12 @@ module SagaciousSuccotash
 
     def setup_simple_form
       build :configure_simple_form
+    end
+
+    def setup_pundit
+      build :pundit_generate
+      build :pundit_add_after_actions_to_application_controller
+      build :pundit_add_shared_examples
     end
 
     def setup_development_environment

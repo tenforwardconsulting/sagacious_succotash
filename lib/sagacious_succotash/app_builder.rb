@@ -60,6 +60,29 @@ module SagaciousSuccotash
       generate "simple_form:install"
     end
 
+    def pundit_generate
+      generate "pundit:install"
+    end
+
+    def pundit_add_after_actions_to_application_controller
+      code = <<-CODE.strip_heredoc.prepend("  ")
+        # Enable Pundit
+          include Pundit
+          # Force authorization be used
+          after_action :verify_authorized, except: :index, unless: :devise_controller?
+          after_action :verify_policy_scoped, only: :index, unless: :devise_controller?
+      CODE
+      inject_into_file(
+        'app/controllers/application_controller.rb',
+        code,
+        after: "class ApplicationController < ActionController::Base\n"
+      )
+    end
+
+    def pundit_add_shared_examples
+      copy_file 'shared_examples/model_policy_shared_examples.rb', 'spec/shared_examples/model_policy_shared_examples.rb'
+    end
+
     def raise_on_delivery_errors
       replace_in_file 'config/environments/development.rb',
         "# Don't care if the mailer can't send.", "# Raise error if the mailer can't send."
@@ -224,10 +247,10 @@ module SagaciousSuccotash
 
     def setup_home_controller
       copy_file 'home_controller.rb', 'app/controllers/home_controller.rb'
-      create_file 'app/views/home/index.html.haml', ''
+      create_file 'app/views/home/show.html.haml', ''
       insert_into_file(
         'config/routes.rb',
-        "\n  root to: 'home#index'\n",
+        "\n  root to: 'home#show'\n",
         after: 'Rails.application.routes.draw do'
       )
     end
