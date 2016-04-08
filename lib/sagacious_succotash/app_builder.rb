@@ -37,15 +37,10 @@ module SagaciousSuccotash
       run 'gem install bundler'
     end
 
-    def setup_application_yml
-      create_file 'config/application.yml', ''
-      create_file 'config/application.yml.example', ''
-    end
-
-    def setup_secrets_yml
+    def setup_environment_variables
+      template 'application.yml.erb', 'config/application.yml'
+      template 'application.yml.example', 'config/application.yml.example'
       template 'secrets.yml.erb', 'config/secrets.yml', force: true
-      append_to_file 'config/application.yml', "SECRET_KEY_BASE: '#{app_secret}'\n"
-      append_to_file 'config/application.yml.example', "SECRET_KEY_BASE: 'run `rake secret` and put value here'\n"
     end
 
     def configure_database
@@ -187,6 +182,29 @@ module SagaciousSuccotash
       copy_file "timecop.rb"             , "spec/support/timecop.rb"
       copy_file "vcr.rb"                 , "spec/support/vcr.rb"
       copy_file "wait_for_ajax.rb"       , "spec/support/wait_for_ajax.rb"
+    end
+
+    def configure_production_mailer_settings
+      code = <<-CODE.strip_heredoc.prepend("\n  ")
+        # Mailer config
+          config.action_mailer.perform_deliveries = true
+          config.action_mailer.default_url_options = { host: 'something'}
+          config.action_mailer.asset_host = 'something'
+          config.action_mailer.smtp_settings = {
+            :address   => "smtp.mandrillapp.com",
+            :port      => 25,                       # ports 587 and 2525 are also supported with STARTTLS
+            :enable_starttls_auto => true,          # detects and uses STARTTLS
+            :user_name => ENV["MANDRILL_USERNAME"],
+            :password  => ENV["MANDRILL_PASSWORD"], # SMTP password is any valid API key
+            :authentication => 'login',             # Mandrill supports 'plain' or 'login'
+            :domain => 'something',                 # your domain to identify your server when connecting
+          }
+      CODE
+      insert_into_file(
+        'config/environments/production.rb',
+        code,
+        before: /^end/
+      )
     end
 
     def convert_erbs_to_haml

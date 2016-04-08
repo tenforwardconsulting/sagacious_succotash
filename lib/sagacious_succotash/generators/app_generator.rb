@@ -15,12 +15,13 @@ module SagaciousSuccotash
       invoke :customize_gemfile
       invoke :customize_routes
       invoke :setup_rvm
-      invoke :configure_app
+      invoke :setup_environment_variables
       invoke :setup_database
       invoke :setup_simple_form
       invoke :setup_pundit
       invoke :setup_development_environment
       invoke :setup_test_environment
+      invoke :setup_production_environment
       invoke :convert_erbs_to_haml
       invoke :setup_layout
       invoke :setup_stylesheets
@@ -57,9 +58,8 @@ module SagaciousSuccotash
       bundle_command 'install'
     end
 
-    def configure_app
-      build :setup_application_yml
-      build :setup_secrets_yml
+    def setup_environment_variables
+      build :setup_environment_variables
     end
 
     def setup_database
@@ -92,6 +92,10 @@ module SagaciousSuccotash
     def setup_test_environment
       build :generate_rspec
       build :configure_rspec
+    end
+
+    def setup_production_environment
+      build :configure_production_mailer_settings
     end
 
     def convert_erbs_to_haml
@@ -144,7 +148,6 @@ module SagaciousSuccotash
       build :configure_devise_routes
       # TODO
       # create basic crud pages and stylesheet? This should use controller scaffold (need to copy over templates/generators for this)
-      # Controller should have correct authorization (pundit?)
     end
 
     def setup_archivable
