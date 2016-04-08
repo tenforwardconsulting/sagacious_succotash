@@ -44,8 +44,8 @@ module SagaciousSuccotash
 
     def setup_secrets_yml
       template 'secrets.yml.erb', 'config/secrets.yml', force: true
-      append_to_file 'config/application.yml', "SECRET_KEY_BASE: '#{app_secret}'"
-      append_to_file 'config/application.yml.example', "SECRET_KEY_BASE: 'run `rake secret` and put value here'"
+      append_to_file 'config/application.yml', "SECRET_KEY_BASE: '#{app_secret}'\n"
+      append_to_file 'config/application.yml.example', "SECRET_KEY_BASE: 'run `rake secret` and put value here'\n"
     end
 
     def configure_database
@@ -190,7 +190,7 @@ module SagaciousSuccotash
     end
 
     def add_javascript_namespace
-      append_to_file 'app/assets/javascripts/application.js', "\nwindow.#{app_name.camelize} = {};"
+      append_to_file 'app/assets/javascripts/application.js', "\nwindow.#{app_name.camelize} = {};\n"
     end
 
     def remove_turbolinks
@@ -219,7 +219,7 @@ module SagaciousSuccotash
     end
 
     def precompile_email_sass
-      append_to_file 'config/initializers/assets.rb', "Rails.application.config.assets.precompile += %w(email.css)"
+      append_to_file 'config/initializers/assets.rb', "Rails.application.config.assets.precompile += %w(email.css)\n"
     end
 
     def setup_home_controller
@@ -402,7 +402,7 @@ Delayed::Worker.logger = Logger.new(File.join(Rails.root, 'log', "\#{Rails.env}_
     end
 
     def setup_git
-      append_to_file '.gitignore', "\nconfig/application.yml\nconfig/database.yml"
+      append_to_file '.gitignore', "\nconfig/application.yml\nconfig/database.yml\nspec/examples.txt\ndb/backups\n"
       run 'git init'
     end
 
