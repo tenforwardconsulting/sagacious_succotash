@@ -1,32 +1,10 @@
+require 'pathname'
+
 module FeatureHelpers
   APP_NAME = "dummy_app"
 
-  def remove_project_directory
-    FileUtils.rm_rf(project_path)
-  end
-
   def create_tmp_directory
     FileUtils.mkdir_p(tmp_path)
-  end
-
-  def run_sagacious_succotash(arguments = nil)
-    Dir.chdir(tmp_path) do
-      Bundler.with_clean_env do
-        ENV['TESTING'] = '1'
-
-        %x(#{sagacious_succotash_bin} #{APP_NAME} #{arguments})
-      end
-    end
-  end
-
-  def drop_dummy_database
-    if File.exist?(project_path)
-      Dir.chdir(project_path) do
-        Bundler.with_clean_env do
-          `rake db:drop`
-        end
-      end
-    end
   end
 
   def project_path

@@ -2,4 +2,4 @@
 
 dropdb dummy_app_development
 rm -rf tmp/dummy_app
-./bin/sagacious_succotash tmp/dummy_app
+RAILS_ENV=development ./bin/sagacious_succotash tmp/dummy_app
