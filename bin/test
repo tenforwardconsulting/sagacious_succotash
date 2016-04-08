@@ -1,5 +1,6 @@
 #!/bin/sh
 
+dropdb dummy_app_test
 dropdb dummy_app_development
 rm -rf tmp/dummy_app
 RAILS_ENV=development ./bin/sagacious_succotash tmp/dummy_app
