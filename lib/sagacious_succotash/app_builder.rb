@@ -159,6 +159,9 @@ module SagaciousSuccotash
     end
 
     def configure_i18n_for_missing_translations
+      # Should we do this for production too?
+      # I feel like I would rather get the error and fix it
+      # rather than to silently ignore it.
       raise_on_missing_translations_in "development"
       raise_on_missing_translations_in "test"
     end

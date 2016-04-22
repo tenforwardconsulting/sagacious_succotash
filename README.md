@@ -25,6 +25,8 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
     bin/test
 
+This creates a dummy project then runs the rspec tests against it.
+
 ## Troubleshooting
 
 * `bundle install` locking up: It actually just takes a while to install the gems. Although it seemed to not install them in the correct gemset if the gemset doesn't already exist :/.
@@ -36,12 +38,12 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/tenfor
 ## TODO
 
 1. Add rollbar
-2. Add option to create api files
+2. Add option to create api files (this should go in its own generator; probably not even this project. I want to make a 10fw generators gem)
 2. Use ems/% instead of px for margin/padding?
 3. Extract shared base from application.sass and email.sass to its own file and include it?
 4. Figure out how to not generate scaffold.sass. There doesn't appear to be an option for it.
 5. Get a better name and put on rubygems.
-6. Checkout issues from [rails\_application\_template](https://github.com/tenforwardconsulting/rails_application_template) and see if any are still necessary
+6. Do issues from [rails\_application\_template](https://github.com/tenforwardconsulting/rails_application_template)
 
 ## License
 
