@@ -4,8 +4,7 @@ module SagaciousSuccotash
     include SagaciousSuccotash::Helpers
 
     def replace_readme
-      remove_file 'README.rdoc'
-      template 'README.md.erb', 'README.md'
+      template 'README.md.erb', 'README.md', force: true
     end
 
     def replace_gemfile
@@ -250,11 +249,11 @@ module SagaciousSuccotash
     end
 
     def setup_application_mailer
-      template 'mailer/application_mailer.rb.erb', 'app/mailers/application_mailer.rb'
+      template 'mailer/application_mailer.rb.erb', 'app/mailers/application_mailer.rb', force: true
     end
 
     def setup_mailer_layout
-      copy_file 'mailer/mailer.html.haml', 'app/views/layouts/mailer.html.haml'
+      copy_file 'mailer/mailer.html.haml', 'app/views/layouts/mailer.html.haml', force: true
     end
 
     def setup_mailer_stylesheets
