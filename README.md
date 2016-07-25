@@ -4,7 +4,7 @@ SagaciousSuccotash is a Rails application generator for Ten Forward Consulting.
 
 ## Installation
 
-Clone the repo.
+`gem install sagacious_succotash`
 
 ## Before Using
 
@@ -13,7 +13,7 @@ Clone the repo.
 
 ## Usage
 
-    bin/sagacious_succotash path/to/new/project
+    sagacious_succotash path/to/new/project
 
 ## Development
 
