@@ -4,14 +4,14 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'sagacious_succotash/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "sagacious_succotash"
-  spec.version       = SagaciousSuccotash::VERSION
-  spec.authors       = ["Zach Boatrite"]
-  spec.email         = ["zach@tenforwardconsulting.com"]
-
-  spec.summary       = %q{Sagacious Succotash is the rails app generator that we use at Ten Forward}
-  spec.homepage      = "http://changeme.com"
-  spec.license       = "MIT"
+  spec.name                   = "sagacious_succotash"
+  spec.version                = SagaciousSuccotash::VERSION
+  spec.authors                = ["Zach Boatrite"]
+  spec.email                  = ["zach@tenforwardconsulting.com"]
+  spec.summary                = %q{Sagacious Succotash is the rails app generator that we use at Ten Forward}
+  spec.homepage               = "http://changeme.com"
+  spec.license                = "MIT"
+  spec.required_ruby_version  = '>= 2.2.2' # Same as rails' required ruby version
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
   # delete this section to allow pushing this gem to any host.
