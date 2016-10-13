@@ -15,6 +15,8 @@ SagaciousSuccotash is a Rails application generator for Ten Forward Consulting.
 
     sagacious_succotash path/to/new/project
 
+Afterwards, check the [issues](https://github.com/tenforwardconsulting/sagacious_succotash/issues) for any extra steps you may need to do.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
